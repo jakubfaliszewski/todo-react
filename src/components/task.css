@@ -1,0 +1,49 @@
+.task {
+    display: flex;
+    align-items: center;
+    margin: 8px;
+    background: white;
+    border-radius: 6px;
+    box-shadow: 0 5px 7px #e4e4e4;
+    padding: 6px;
+    animation: fadeIn 0.5s forwards;
+}
+
+.task-button {
+    font-size: 30px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    background: none;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+    color: #858585;
+}
+
+
+.task-button .complete{
+    color: #389738;
+}
+
+.task-button:focus {
+    color: #41b9e2;
+    outline: 0;
+}
+
+@keyframes fadeIn{
+    from{
+        transform: translate3d(0,15px,0);
+        opacity: 0;
+    }
+
+    to{
+        transform: translate3d(0,0,0);
+        opacity: 1;
+    }
+}

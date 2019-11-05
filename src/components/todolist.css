@@ -1,0 +1,38 @@
+.window {
+    width: 600px;
+    max-width: 90%;
+    margin: 10px;
+    background: #f6f6f6;
+    border-radius: 6px;
+    box-shadow: 0 19px 38px rgba(0, 0, 0, 0.2), 0 15px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.window-header {
+    width: 100%;
+}
+
+.window-body {
+    width: 100%;   
+     padding: 6px;
+    box-sizing: border-box;
+}
+
+/* HEADER STYLES */
+.window-header-name {
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #858585;
+    background: white;
+    padding: 10px 10px;
+    text-align: left;
+}
+.window-header-icon {
+margin: 0 8px;
+}
+/* TASKS */
+.tasks {
+    min-height: 400px;
+    max-height: 400px;
+    overflow: auto;
+}
