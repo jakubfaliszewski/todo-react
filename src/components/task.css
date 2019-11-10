@@ -1,12 +1,41 @@
 .task {
     display: flex;
     align-items: center;
-    margin: 8px;
+    margin: 28px 8px 8px;
     background: white;
-    border-radius: 6px;
+    border-radius: 0px 6px 6px 6px;
     box-shadow: 0 5px 7px #e4e4e4;
     padding: 6px;
     animation: fadeIn 0.5s forwards;
+    position: relative;
+    transition: 0.5s;
+}
+
+.task-date {
+    z-index: -1;
+    position: absolute;
+    top: -20px;
+    font-size: 12px;
+    line-height: 1em;
+    background: white;
+    left: 0;
+    padding: 4px;
+    border-radius: 6px 6px 0 0;
+    color: #858585;
+    transition: 0.5s;
+}
+
+.task.complete {
+    background: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 2px 4px #e4e4e4;
+}
+
+.task.complete .task-date {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.task-name{
+    flex: 1;
 }
 
 .task-button {
@@ -27,7 +56,7 @@
 }
 
 
-.task-button .complete{
+.task-button .complete {
     color: #389738;
 }
 
@@ -36,14 +65,18 @@
     outline: 0;
 }
 
-@keyframes fadeIn{
-    from{
-        transform: translate3d(0,15px,0);
+.task-button.warn{
+    color: #cc3300;
+}
+
+@keyframes fadeIn {
+    from {
+        transform: translate3d(0, 15px, 0);
         opacity: 0;
     }
 
-    to{
-        transform: translate3d(0,0,0);
+    to {
+        transform: translate3d(0, 0, 0);
         opacity: 1;
     }
 }
