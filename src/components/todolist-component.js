@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import TaskComponent from './task-component';
 
 import './todolist.css';
 import './add-task.css';
@@ -13,6 +12,15 @@ import { faCircle, faCheckCircle, faTimesCircle } from '@fortawesome/free-regula
 class TodoListComponent extends Component {
     constructor() {
         super();
+
+        function getItems(){
+            let storagedItems = localStorage.getItem('todolist-tasks');
+            let obj = JSON.parse(storagedItems)
+            console.log(obj);
+            if (obj.length > 0) return obj;
+            else return [];
+        }
+        
         this.state = {
             task: {
                 name: '',
@@ -20,8 +28,14 @@ class TodoListComponent extends Component {
                 date: null,
                 id: this.generateShortGuid()
             },
-            taskList: []
+            taskList: getItems()
         };
+    }
+
+    setItems() {
+        setTimeout(()=>{
+            localStorage.setItem('todolist-tasks', JSON.stringify(this.state.taskList));
+        },100)
     }
 
     generateShortGuid() {
@@ -45,6 +59,7 @@ class TodoListComponent extends Component {
             },
             taskList: [...this.state.taskList, this.state.task]
         });
+        this.setItems();
     }
 
     onChange = (event) => {
@@ -94,6 +109,7 @@ class TodoListComponent extends Component {
             t.setState({
                 taskList: originalTaskList
             });
+            t.setItems();
         }
 
         function removeTask(e) {
@@ -103,7 +119,7 @@ class TodoListComponent extends Component {
             t.setState({
                 taskList: returnList
             });
-
+            t.setItems();
         }
 
         return (
@@ -113,7 +129,7 @@ class TodoListComponent extends Component {
                         year: 'numeric',
                         month: 'long',
                         day: '2-digit',
-                    }).format(this.state.taskList[taskIndex].date)}
+                    }).format(new Date(this.state.taskList[taskIndex].date))}
                 </span>
                 <button className="task-button" onClick={compeleteTask}>
                     {setIcon(this.state.taskList[taskIndex].complete)}
@@ -143,7 +159,7 @@ class TodoListComponent extends Component {
         );
         let addTasks = (
             <form className="add-task" onSubmit={this.onSubmit}>
-                <input className="add-task-input" value={this.state.task.name} onChange={this.onChange}></input>
+                <input required className="add-task-input" value={this.state.task.name} onChange={this.onChange}></input>
                 <button className="add-task-button">
                     <FontAwesomeIcon icon={faPlus} />
                 </button>
