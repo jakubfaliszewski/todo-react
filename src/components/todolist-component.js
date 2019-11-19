@@ -5,7 +5,7 @@ import './add-task.css';
 import './task.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTasks, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faTasks, faPlus, faFilter } from '@fortawesome/free-solid-svg-icons';
 import { faCircle, faCheckCircle, faTimesCircle } from '@fortawesome/free-regular-svg-icons';
 
 // import TaskListComponent from './task-list-component';
@@ -13,14 +13,14 @@ class TodoListComponent extends Component {
     constructor() {
         super();
 
-        function getItems(){
+        function getItems() {
             let storagedItems = localStorage.getItem('todolist-tasks');
             let obj = JSON.parse(storagedItems)
             console.log(obj);
-            if (obj.length > 0) return obj;
+            if (obj && obj.length > 0) return obj;
             else return [];
         }
-        
+
         this.state = {
             task: {
                 name: '',
@@ -28,14 +28,15 @@ class TodoListComponent extends Component {
                 date: null,
                 id: this.generateShortGuid()
             },
-            taskList: getItems()
+            taskList: getItems(),
+            filterEnabled: false
         };
     }
 
     setItems() {
-        setTimeout(()=>{
+        setTimeout(() => {
             localStorage.setItem('todolist-tasks', JSON.stringify(this.state.taskList));
-        },100)
+        }, 100)
     }
 
     generateShortGuid() {
@@ -75,10 +76,18 @@ class TodoListComponent extends Component {
 
     generateList() {
         const taskList = this.state.taskList.map((task, index) =>
+            // if (task.complete == false)
             this.renderTask(task, index)
         );
 
         return taskList;
+    }
+
+    filterItems() {
+        let changeFilter = !this.state.filterEnabled;
+        this.setState({
+            filterEnabled: changeFilter
+        });
     }
 
     renderTask(task, taskIndex) {
@@ -122,7 +131,7 @@ class TodoListComponent extends Component {
             t.setItems();
         }
 
-        return (
+        if (this.state.filterEnabled ? this.state.taskList[taskIndex].complete : true) return (
             <li className={setState(this.state.taskList[taskIndex].complete)}>
                 <span className="task-date">
                     {new Intl.DateTimeFormat('en-GB', {
@@ -144,12 +153,22 @@ class TodoListComponent extends Component {
 
     render() {
         let t = this;
+
+        function filterTasks(e) {
+            e.preventDefault();
+            t.filterItems();
+        }
+
         let header = (
             <header className="window-header">
                 <h1 className="window-header-name">
                     <FontAwesomeIcon className="window-header-icon" icon={faTasks} />
                     Todo List ({this.state.taskList.length})
               </h1>
+                <button onClick={filterTasks} className={this.state.filterEnabled ? "window-header-button enabled" : "window-header-button"} >
+                    <FontAwesomeIcon className="window-header-icon" icon={faFilter} />
+                    Only completed
+                    </button>
             </header>
         );
         let tasks = (
